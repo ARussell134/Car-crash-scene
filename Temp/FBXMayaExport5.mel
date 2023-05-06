@@ -1,0 +1,22 @@
+print "Starting maya loading and fbx conversion \n";
+	
+if (`file -q -exists "/Users/alistairrussell/Documents/Year 3/Media production/Car crash scene/Assets/just car.mb"`)
+{		
+	file -o "/Users/alistairrussell/Documents/Year 3/Media production/Car crash scene/Assets/just car.mb";
+	FBXExportEmbeddedTextures -v false;
+	// FBXExportHardEdges -v true;
+	FBXExportApplyConstantKeyReducer -v false;
+	FBXExportShowUI -v false;
+
+	print "Before fbx export\n";
+	FBXExport -f "/Users/alistairrussell/Documents/Year 3/Media production/Car crash scene/Temp/ExportedFBXFile.fbx";
+	print "after fbx export\n";
+}
+else
+	print "Could not open Maya file.";
+
+sysFile -delete "/Users/alistairrussell/Documents/Year 3/Media production/Car crash scene/Temp/CommandPipe";
+
+$donepipeKill = `fopen "/Users/alistairrussell/Documents/Year 3/Media production/Car crash scene/Temp/SyncPipeKill" "w"`;
+fwrite $donepipeKill "Done";
+fclose $donepipeKill;
